@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e1e2e"/>
+      <stop offset="1" stop-color="#181825"/>
+    </linearGradient>
+    <linearGradient id="pane" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#313244"/>
+      <stop offset="1" stop-color="#292a3c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- glass panel -->
+  <rect x="6" y="6" width="116" height="116" rx="22" fill="url(#frame)"
+        stroke="#b4befe" stroke-opacity="0.45" stroke-width="2.5"/>
+
+  <!-- left pane -->
+  <rect x="19" y="19" width="50" height="90" rx="9" fill="url(#pane)"
+        stroke="#89b4fa" stroke-width="3"/>
+  <circle cx="44" cy="64" r="4.5" fill="#89b4fa" fill-opacity="0.9"/>
+
+  <!-- right split -->
+  <rect x="79" y="19" width="30" height="41" rx="8" fill="url(#pane)"
+        stroke="#cba6f7" stroke-width="3"/>
+  <rect x="79" y="68" width="30" height="41" rx="8" fill="url(#pane)"
+        stroke="#94e2d5" stroke-width="3"/>
+
+  <circle cx="94" cy="39.5" r="3" fill="#cba6f7" fill-opacity="0.9"/>
+  <circle cx="94" cy="88.5" r="3" fill="#94e2d5" fill-opacity="0.9"/>
+</svg>

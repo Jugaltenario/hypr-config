@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Toast shown when Super+L switches the tiling layout.
+# Queries Hyprland when called without an argument, so it also works by hand.
+
+set -euo pipefail
+
+layout="${1:-}"
+if [[ -z "$layout" ]]; then
+    layout="$(hyprctl getoption general:layout -j 2>/dev/null \
+        | jq -r '.str // empty' 2>/dev/null || true)"
+fi
+if [[ -z "$layout" ]]; then
+    layout="$(hyprctl getoption general:layout 2>/dev/null \
+        | awk '/^str:/{print $2}' || true)"
+fi
+
+case "$layout" in
+    scrolling)
+        icon="$HOME/.config/hypr/assets/layout-scrolling.svg"
+        title="Scrolling layout"
+        body="Windows live in horizontal columns  ·  Super + L to switch"
+        ;;
+    *)
+        icon="$HOME/.config/hypr/assets/layout-dwindle.svg"
+        title="Dwindle layout"
+        body="Windows split the focused pane  ·  Super + L to switch"
+        ;;
+esac
+
+state="${XDG_RUNTIME_DIR:-/tmp}/hyprland-layout-notify.id"
+old_id=""
+if [[ -r "$state" ]]; then
+    old_id="$(<"$state")"
+    [[ "$old_id" =~ ^[0-9]+$ ]] || old_id=""
+fi
+
+args=(-a "Hyprland" -i "$icon" -t 4000 -u normal -c layout -p
+      -h "string:x-canonical-private-synchronous:hypr-layout")
+[[ -n "$old_id" ]] && args+=(-r "$old_id")
+
+new_id="$(notify-send "${args[@]}" "$title" "$body" 2>/dev/null || true)"
+[[ -n "$new_id" ]] && printf '%s' "$new_id" >"$state"

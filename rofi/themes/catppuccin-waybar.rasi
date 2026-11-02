@@ -1,0 +1,292 @@
+/**
+ * Catppuccin Mocha · launch deck
+ * Layout inspired by adi1090x's rofi theme: search → mode tabs → icon list.
+ * Palette matches ~/.config/waybar/themes/catppuccin-mocha.css
+ * Accent: lavender (#b4befe) · secondary: mauve (#cba6f7)
+ * Frosting: translucent surfaces + Hyprland layer blur
+ **/
+
+* {
+    /* Catppuccin Mocha palette */
+    rosewater:    #f5e0dc;
+    flamingo:     #f2cdcd;
+    pink:         #f5c2e7;
+    mauve:        #cba6f7;
+    red:          #f38ba8;
+    maroon:       #eba0ac;
+    peach:        #fab387;
+    yellow:       #f9e2af;
+    green:        #a6e3a1;
+    teal:         #94e2d5;
+    sky:          #89dceb;
+    sapphire:     #74c7ec;
+    blue:         #89b4fa;
+    lavender:     #b4befe;
+    text:         #cdd6f4;
+    subtext1:     #bac2de;
+    subtext0:     #a6adc8;
+    overlay2:     #9399b2;
+    overlay1:     #7f849c;
+    overlay0:     #6c7086;
+    surface2:     #585b70;
+    surface1:     #45475a;
+    surface0:     #313244;
+    base:         #1e1e2e;
+    mantle:       #181825;
+    crust:        #11111b;
+
+    /* Base widget defaults */
+    font:             "GoogleSansCode Nerd Font 13";
+    background-color: transparent;
+    border:           0;
+    border-color:     transparent;
+    text-color:       @text;
+    cursor:           "default";
+}
+
+/***** Window *****/
+window {
+    transparency:     "real";
+    location:         center;
+    anchor:           center;
+    fullscreen:       false;
+    width:            800px;
+    x-offset:         0px;
+    y-offset:         0px;
+    enabled:          true;
+    margin:           0px;
+    padding:          0px;
+    border:           1px;
+    border-radius:    18px;
+    border-color:     #b4befe40;
+    background-color: #11111bee;
+    background-image: linear-gradient(160deg, #1e1e2ee6, #181825ee, #11111bf2);
+    cursor:           "default";
+}
+
+/***** Main Box: search → message → mode tabs → results *****/
+mainbox {
+    enabled:          true;
+    orientation:      vertical;
+    spacing:          0px;
+    margin:           0px;
+    padding:          20px;
+    border:           0px;
+    border-radius:    0px;
+    background-color: transparent;
+    children:         [ "inputbar", "message", "mode-switcher", "listview" ];
+}
+
+/***** Search bar *****/
+inputbar {
+    enabled:          true;
+    spacing:          12px;
+    margin:           0px 0px 10px 0px;
+    padding:          11px 16px;
+    border:           1px;
+    border-radius:    13px;
+    border-color:     #313244;
+    background-color: #1e1e2ecc;
+    text-color:       @text;
+    children:         [ "textbox-prompt-colon", "entry" ];
+}
+
+textbox-prompt-colon {
+    enabled:          true;
+    expand:           false;
+    padding:          0px;
+    str:              "󰍉";
+    font:             "GoogleSansCode Nerd Font 16";
+    background-color: transparent;
+    text-color:       @lavender;
+}
+
+entry {
+    enabled:           true;
+    padding:           2px 0px;
+    background-color:  transparent;
+    text-color:        @text;
+    cursor:            text;
+    cursor-color:      @lavender;
+    placeholder:       "Search apps, commands, files…";
+    placeholder-color: @overlay0;
+}
+
+/***** Mode tabs (attached to the top of the list) *****/
+mode-switcher {
+    enabled:          true;
+    orientation:      horizontal;
+    expand:           false;
+    spacing:          6px;
+    margin:           0px;
+    padding:          0px;
+    border:           0px;
+    border-radius:    0px;
+    background-color: transparent;
+    text-color:       @subtext0;
+}
+
+button {
+    font:             "GoogleSansCode Nerd Font 10.5";
+    padding:          9px 16px;
+    border:           0px 0px 2px 0px;
+    border-radius:    12px 12px 0px 0px;
+    border-color:     @surface0;
+    background-color: #1e1e2ea6;
+    text-color:       @subtext0;
+    cursor:           pointer;
+}
+
+button selected {
+    border:           0px 0px 2px 0px;
+    border-radius:    12px 12px 0px 0px;
+    border-color:     @lavender;
+    background-color: #313244b8;
+    text-color:       @lavender;
+}
+
+/***** Result list *****/
+listview {
+    enabled:          true;
+    columns:          1;
+    lines:            8;
+    cycle:            true;
+    dynamic:          true;
+    scrollbar:        false;
+    layout:           vertical;
+    reverse:          false;
+    fixed-height:     true;
+    fixed-columns:    true;
+    spacing:          4px;
+    margin:           0px;
+    padding:          10px;
+    border:           0px;
+    border-radius:    0px 0px 14px 14px;
+    background-color: #18182559;
+    text-color:       @text;
+    cursor:           "default";
+    /* rofi 2.0 collapses dmenu lists unless this is false */
+    require-input:    false;
+}
+
+scrollbar {
+    width:            5px;
+    padding:          0px;
+    border:           0px;
+    border-radius:    999px;
+    handle-width:     5px;
+    handle-color:     @lavender;
+    background-color: #1e1e2e;
+}
+
+/***** Rows *****/
+element {
+    enabled:          true;
+    spacing:          12px;
+    margin:           0px;
+    padding:          8px 12px;
+    border:           0px;
+    border-radius:    9px;
+    border-color:     transparent;
+    background-color: transparent;
+    text-color:       @text;
+    cursor:           pointer;
+    children:         [ "element-icon", "element-text" ];
+}
+
+element normal.normal {
+    background-color: #1e1e2e40;
+    text-color:       @text;
+}
+
+element alternate.normal {
+    background-color: #18182566;
+    text-color:       @text;
+}
+
+element selected.normal {
+    border:           0px 0px 0px 3px;
+    border-color:     @lavender;
+    background-image: linear-gradient(90deg, #b4befe38, #cba6f724, #cba6f708);
+    text-color:       @text;
+}
+
+element normal.urgent {
+    background-color: #f38ba833;
+    text-color:       @red;
+}
+
+element selected.urgent {
+    border:           0px 0px 0px 3px;
+    border-color:     @red;
+    background-image: linear-gradient(90deg, #f38ba852, #f38ba81f);
+    text-color:       @text;
+}
+
+element normal.active {
+    background-color: #a6e3a133;
+    text-color:       @green;
+}
+
+element selected.active {
+    border:           0px 0px 0px 3px;
+    border-color:     @green;
+    background-image: linear-gradient(90deg, #a6e3a152, #a6e3a11f);
+    text-color:       @text;
+}
+
+element-icon {
+    size:             26px;
+    background-color: transparent;
+    text-color:       inherit;
+    cursor:           inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    highlight:        inherit;
+    vertical-align:   0.5;
+    horizontal-align: 0.0;
+    cursor:           inherit;
+}
+
+/***** Message / errors *****/
+message {
+    enabled:          true;
+    margin:           0px 0px 10px 0px;
+    padding:          0px;
+    border:           0px;
+    border-radius:    0px;
+    background-color: transparent;
+    text-color:       @text;
+}
+
+textbox {
+    padding:          10px 14px;
+    border:           1px solid;
+    border-radius:    11px;
+    border-color:     #f9e2af40;
+    background-color: #f9e2af1a;
+    text-color:       @yellow;
+    vertical-align:   0.5;
+    horizontal-align: 0.0;
+    highlight:        none;
+    markup:           true;
+}
+
+error-message {
+    padding:          12px 14px;
+    border:           1px solid;
+    border-radius:    11px;
+    border-color:     #f38ba866;
+    background-color: #f38ba833;
+    text-color:       @red;
+}
+
+/***** Overlay selection *****/
+overlay {
+    background-color: @lavender;
+    foreground-color: @crust;
+    text-color:       @crust;
+}

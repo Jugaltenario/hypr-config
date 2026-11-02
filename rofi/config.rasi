@@ -1,0 +1,21 @@
+/**
+ * Rofi configuration
+ * Appearance lives in themes/catppuccin-waybar.rasi
+ **/
+
+configuration {
+    modi:                "drun,run,filebrowser,window";
+    show-icons:          true;
+    icon-theme:          "Adwaita";
+    display-drun:        "󰀻  Apps";
+    display-run:         "󰆍  Run";
+    display-filebrowser: "󰉋  Files";
+    display-window:      "󰖲  Windows";
+    drun-display-format: "{name}";
+    window-format:       "{w} · {c} · {t}";
+    terminal:            "ghostty";
+    case-sensitive:      false;
+    sorting-method:      "fzf";
+}
+
+@import "themes/catppuccin-waybar.rasi"

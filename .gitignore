@@ -1,0 +1,24 @@
+# Caches
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Backups & temp
+*.bak
+*.old
+*.orig
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Secrets/state (in case copied)
+**/auth.json
+**/token*
+**/secret*
+**/*.key
+**/id_*
+!**/*.pub
+
+# Build artifacts
+/rofi/images/

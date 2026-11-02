@@ -1,0 +1,95 @@
+{
+  "title": "Hyprland Keybindings",
+  "eyebrow": "CATPPUCCIN MOCHA  ·  HYPRLAND 0.57  ·  LUA CONFIG",
+  "subtitle": "Every shortcut in one place. Hold Super, then press the keys shown.",
+  "footer": "~/.config/hypr/keybindings.json",
+  "categories": [
+    {
+      "id": "apps",
+      "name": "Apps & Windows",
+      "accent": "blue",
+      "binds": [
+        { "keys": ["Super", "Return"], "desc": "Open terminal (Ghostty)" },
+        { "keys": ["Super", "Space"], "desc": "App launcher (rofi)" },
+        { "keys": ["Super", "E"], "desc": "Open file manager (Nautilus)" },
+        { "keys": ["Super", "Q"], "desc": "Close the focused window" },
+        { "keys": ["Super", "V"], "desc": "Toggle floating mode" },
+        { "keys": ["Super", "P"], "desc": "Toggle pseudo-tiling" },
+        { "keys": ["Super", "M"], "desc": "Exit Hyprland / shutdown menu" },
+        { "keys": ["Super", "Shift", "Escape"], "desc": "Lock the screen (hyprlock)" }
+      ]
+    },
+    {
+      "id": "focus",
+      "name": "Focus & Move",
+      "accent": "teal",
+      "binds": [
+        { "keys": ["Super", "Arrows"], "desc": "Move focus in a direction" },
+        { "keys": ["Super", "Shift", "H"], "desc": "Move window left (dwindle) · swap column left (scrolling)" },
+        { "keys": ["Super", "Shift", "J"], "desc": "Move window down (dwindle) · shrink to 50% and dock left (scrolling)" },
+        { "keys": ["Super", "Shift", "K"], "desc": "Move window up (dwindle) · shrink to 50% and dock left (scrolling)" },
+        { "keys": ["Super", "Shift", "L"], "desc": "Move window right (dwindle) · swap column right (scrolling)" },
+        { "keys": ["Super", "Alt", "H / L"], "desc": "Scrolling only: swap the focused column left or right" },
+        { "keys": ["Super", "Mouse drag"], "desc": "Drag a window with the left mouse button" },
+        { "keys": ["Super", "Right-drag"], "desc": "Resize a window with the right mouse button" }
+      ]
+    },
+    {
+      "id": "layout",
+      "name": "Layouts",
+      "accent": "lavender",
+      "binds": [
+        { "keys": ["Super", "L"], "desc": "Toggle dwindle ↔ scrolling layout" },
+        { "keys": ["Super", "Alt", "J"], "desc": "Dwindle only: toggle split direction" },
+        { "keys": ["Super", "Period"], "desc": "Move the window to the next column" },
+        { "keys": ["Super", "Comma"], "desc": "Move the window to the previous column" },
+        { "keys": ["Super", "Plus"], "desc": "Scrolling: grow the focused column" },
+        { "keys": ["Super", "Minus"], "desc": "Scrolling: shrink the focused column" }
+      ]
+    },
+    {
+      "id": "workspaces",
+      "name": "Workspaces",
+      "accent": "mauve",
+      "binds": [
+        { "keys": ["Super", "1…0"], "desc": "Focus workspace 1–10 (0 = workspace 10)" },
+        { "keys": ["Super", "Shift", "1…0"], "desc": "Move the focused window to workspace 1–10" },
+        { "keys": ["Super", "S"], "desc": "Toggle the special scratchpad workspace" },
+        { "keys": ["Super", "Shift", "P"], "desc": "Send the window to the scratchpad" },
+        { "keys": ["Super", "Scroll ↑↓"], "desc": "Cycle to the previous / next workspace" }
+      ]
+    },
+    {
+      "id": "screenshots",
+      "name": "Screenshots",
+      "accent": "peach",
+      "binds": [
+        { "keys": ["Super", "Shift", "S"], "desc": "Screenshot a selected region" },
+        { "keys": ["Super", "Print"], "desc": "Screenshot the focused window" }
+      ]
+    },
+    {
+      "id": "media",
+      "name": "Media & System",
+      "accent": "green",
+      "binds": [
+        { "keys": ["Volume +"], "desc": "Raise output volume by 5%" },
+        { "keys": ["Volume −"], "desc": "Lower output volume by 5%" },
+        { "keys": ["Mute"], "desc": "Mute / unmute the audio output" },
+        { "keys": ["Mic mute"], "desc": "Mute / unmute the microphone" },
+        { "keys": ["Brightness +"], "desc": "Raise screen brightness by 5%" },
+        { "keys": ["Brightness −"], "desc": "Lower screen brightness by 5%" },
+        { "keys": ["Play / pause"], "desc": "Play or pause the current track" },
+        { "keys": ["Previous"], "desc": "Play the previous track" }
+      ]
+    },
+    {
+      "id": "help",
+      "name": "Help",
+      "accent": "pink",
+      "binds": [
+        { "keys": ["Super", "Slash"], "desc": "Open this cheat sheet as a live rofi overlay" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+[Default Applications]
+application/typescript=nvim.desktop
+application/x-zerosize=nvim.desktop
+text/plain=nvim.desktop
+
+[Added Associations]
+application/typescript=nvim.desktop;
+application/x-zerosize=nvim.desktop;
+text/plain=nvim.desktop;

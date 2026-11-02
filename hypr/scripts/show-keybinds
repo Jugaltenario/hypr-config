@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Super+/ overlay: searchable Hyprland cheat sheet, generated from
+# ~/.config/hypr/keybindings.json so it always matches the PDF.
+
+set -euo pipefail
+
+rows="$(python3 "$HOME/.config/hypr/scripts/gen-keybinds.py" rofi)"
+
+rofi -dmenu \
+    -i \
+    -markup-rows \
+    -no-custom \
+    -selected-row 1 \
+    -p "keys" \
+    -theme "$HOME/.config/rofi/themes/keybinds.rasi" \
+    <<<"$rows" >/dev/null || true

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e1e2e"/>
+      <stop offset="1" stop-color="#181825"/>
+    </linearGradient>
+    <linearGradient id="focus" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#45475a"/>
+      <stop offset="1" stop-color="#313244"/>
+    </linearGradient>
+    <linearGradient id="pane" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#313244"/>
+      <stop offset="1" stop-color="#292a3c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- glass panel -->
+  <rect x="6" y="6" width="116" height="116" rx="22" fill="url(#frame)"
+        stroke="#b4befe" stroke-opacity="0.45" stroke-width="2.5"/>
+
+  <!-- previous column -->
+  <rect x="18" y="22" width="22" height="84" rx="7" fill="url(#pane)"
+        stroke="#585b70" stroke-width="3"/>
+  <circle cx="29" cy="64" r="3.5" fill="#585b70"/>
+
+  <!-- focused column -->
+  <rect x="46" y="14" width="38" height="100" rx="9" fill="url(#focus)"
+        stroke="#b4befe" stroke-width="3.5"/>
+  <circle cx="65" cy="64" r="5" fill="#b4befe"/>
+  <path d="M57 50 L65 42 L73 50" fill="none" stroke="#b4befe" stroke-width="2.6"
+        stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+  <path d="M57 78 L65 86 L73 78" fill="none" stroke="#b4befe" stroke-width="2.6"
+        stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+
+  <!-- next column -->
+  <rect x="90" y="33" width="20" height="62" rx="7" fill="url(#pane)"
+        stroke="#cba6f7" stroke-width="3"/>
+  <circle cx="100" cy="64" r="3.5" fill="#cba6f7"/>
+
+  <!-- horizontal scroll hint -->
+  <path d="M42 112 L52 112" stroke="#89b4fa" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M47 108 L51 112 L47 116" fill="none" stroke="#89b4fa" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,95 @@
+/**
+ * Catppuccin Mocha · Hyprland keybindings overlay
+ * Reuses the frosted command-deck look from catppuccin-waybar.rasi.
+ **/
+
+@import "catppuccin-waybar.rasi"
+
+window {
+    width:            920px;
+    border-radius:    24px;
+    background-color: #11111bdd;
+    background-image: linear-gradient(160deg, #1e1e2ecc, #181825e6, #11111bee);
+}
+
+mainbox {
+    spacing:  10px;
+    padding:  18px 22px 14px;
+    children: [ "textbox-brand", "inputbar", "listbox", "textbox-footer" ];
+}
+
+textbox-brand {
+    str:              "󰣇   H Y P R L A N D   ·   K E Y B I N D I N G S";
+    font:             "GoogleSansCode Nerd Font 10";
+    text-color:       @overlay1;
+    padding:          0 4px;
+}
+
+inputbar {
+    padding:          13px 16px;
+    spacing:          12px;
+    border:           1px;
+    border-radius:    16px;
+    border-color:     @surface0;
+    background-color: #1e1e2ecc;
+}
+
+entry {
+    placeholder:       "Search shortcuts…";
+    placeholder-color: @overlay0;
+}
+
+listbox {
+    children:         [ "message", "listview" ];
+    spacing:          0;
+    padding:          2px 0 0;
+    background-color: transparent;
+}
+
+listview {
+    lines:            18;
+    spacing:          4px;
+    scrollbar:        false;
+    cycle:            true;
+    dynamic:          true;
+    fixed-height:     false;
+    require-input:    false;
+}
+
+element {
+    padding:          7px 12px;
+    spacing:          0;
+    border:           0;
+    border-radius:    10px;
+    children:         [ "element-text" ];
+}
+
+element normal.normal {
+    background-color: #1e1e2e33;
+}
+
+element alternate.normal {
+    background-color: #1818254d;
+}
+
+element selected.normal {
+    border:           0 0 0 3px;
+    border-color:     @lavender;
+    background-image: linear-gradient(90deg, #b4befe30, #cba6f720, #cba6f708);
+}
+
+element-text {
+    font:             "GoogleSansCode Nerd Font Mono 10.5";
+    background-color: transparent;
+    vertical-align:   0.5;
+    horizontal-align: 0.0;
+    text-color:       @text;
+}
+
+textbox-footer {
+    str:              "type to filter   ·   ↑↓ move   ·   esc close   ·   super + / opens this overlay";
+    font:             "GoogleSansCode Nerd Font 9.5";
+    text-color:       @overlay0;
+    horizontal-align: 0.5;
+    padding:          10px 0 0;
+}
