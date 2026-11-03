@@ -15,8 +15,28 @@ the personal fastfetch config stay in charge, and HyDE only recolours them.
   `themes/hyde.css` palette, so only colours follow the HyDE theme
 - `hyde/` — local HyDE overrides (see below)
 - `ghostty/` — base config + generated `hyde-theme.conf` palette
-- `rofi/`, `swaync/`, `fastfetch/`, `fish/`, `micro/`
+- `rofi/`, `swaync/`, `fastfetch/`, `micro/`
+- `fish/` — config, `conf.d/hyde.fish`, and HyDE's helper functions
+  (`bind_M_n_history`, `_hyde_editor`, `fzf/*`)
 - `gtk-3.0/`, `nwg-look/`, `autostart/`, `mimeapps.list`
+- `applications/hyde-theme.desktop` — theme switcher entry for rofi/app menus
+
+`fish/conf.d/hyde.fish` calls `bind_M_n_history`; if fish says
+`Unknown command: bind_M_n_history`, the matching file in
+`fish/functions/` was not installed.
+
+## Theme switcher
+
+Open HyDE's visual picker with:
+
+- `SUPER + SHIFT + T`, or
+- `hyde-shell theme.select` in a terminal, or
+- **HyDE Theme Switcher** in rofi's application list.
+
+Use `SUPER + ALT + Up` / `SUPER + ALT + Down` to cycle themes without opening
+the picker. The picker shows wallpaper thumbnails; `thmbDir` must contain a
+`.sqre` thumbnail for every theme or entries appear blank. Rebuild them with
+`hyde-shell wallpaper --cache theme "<theme name>"`.
 
 ## How theming works
 
@@ -53,7 +73,11 @@ back after installing/updating HyDE:
   (gsettings theme/cursor/font/terminal, `hyprctl setcursor`).
 - `lib/wallpaper.hyprpaper.sh` — loads the lock helpers when invoked as a
   child of `wallpaper.sh`, and supports hyprpaper >= 0.8 (which dropped the
-  `hyprctl hyprpaper` IPC): writes the config and restarts the service.
+  `hyprctl hyprpaper` IPC): rewrites the config and restarts the service.
+  Paths are published through a space-free `~/.cache/hyde/hyprpaper/wall.*`
+  symlink because hyprpaper misparses quoted paths containing spaces (every
+  HyDE theme name has one). The script also removes manually started
+  hyprpaper instances so only the systemd service owns the socket.
 - `lib/mechabar-sync.py` — HyDE palette → mechabar `hyde.css`.
 - `lib/ghostty-sync.py` — HyDE `kitty.theme` → Ghostty config.
 - `scripts/waybar.sh` — refuses HyDE's layout-changing `waybar --next/--set`
@@ -112,6 +136,8 @@ fc-cache -f
    cp -r hypr waybar rofi swaync ghostty fastfetch fish micro gtk-3.0 \
      nwg-look autostart ~/.config/
    cp mimeapps.list ~/.config/
+   mkdir -p ~/.local/share/applications
+   cp applications/hyde-theme.desktop ~/.local/share/applications/
    ```
 
 3. Wallpapers stay at their original paths:

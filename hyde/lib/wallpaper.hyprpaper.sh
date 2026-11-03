@@ -9,10 +9,6 @@
 wallpaper_acquire_lock 15
 trap 'flock -u "$WALLPAPER_LOCK_FD"' EXIT
 
-if [[ ! -f "$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/hyprpaper.lock" ]]; then
-    systemctl --user start hyprpaper.service || setsid hyprpaper &
-    sleep 1
-fi
 selected_wall="${1:-${XDG_CACHE_HOME:-$HOME/.cache}/hyde/wall.set}"
 [ -z "$selected_wall" ] && echo "No input wallpaper" && exit 1
 selected_wall="$(readlink -f "$selected_wall")"
@@ -25,13 +21,26 @@ if [ "$is_video" -eq 1 ]; then
     selected_wall="${cached_thumb}"
 fi
 
+# Hyprpaper's config parser breaks on quoted paths that contain spaces, and
+# every HyDE theme name has one ("Decay Green", "Tokyo Night", ...). Publish
+# the chosen wallpaper through a space-free symlink and write that path
+# unquoted. Hyprpaper follows the symlink to the real image.
+wall_dir="$HYDE_CACHE_HOME/hyprpaper"
+mkdir -p "$wall_dir"
+ext="${selected_wall##*.}"
+ext="${ext,,}"
+[[ $ext =~ ^[a-z0-9]{1,5}$ ]] || ext=png
+wall_link="$wall_dir/wall.$ext"
+rm -f "$wall_dir"/wall.*
+ln -sfn "$selected_wall" "$wall_link"
+
 write_config() {
     cat >"$1" <<HYPRPAPER
 splash = false
 
 wallpaper {
     monitor =
-    path = "${selected_wall}"
+    path = ${wall_link}
     fit_mode = cover
 }
 HYPRPAPER
@@ -54,9 +63,13 @@ if [[ -n $HYPRLAND_INSTANCE_SIGNATURE ]] && ! hyprpaper_uses_config; then
 fi
 
 write_config "$confDir/hypr/hyprpaper.conf"
-if systemctl --user is-active --quiet hyprpaper.service; then
-    systemctl --user restart hyprpaper.service
-else
-    pkill -x hyprpaper 2>/dev/null
+
+# A manually launched hyprpaper keeps the old socket and config. Stop every
+# instance first, clear a start-limit from earlier failed launches, then let
+# systemd own the only process.
+pkill -x hyprpaper 2>/dev/null || true
+sleep 0.2
+systemctl --user reset-failed hyprpaper.service 2>/dev/null || true
+if ! systemctl --user restart hyprpaper.service >/dev/null 2>&1; then
     setsid hyprpaper >/dev/null 2>&1 &
 fi

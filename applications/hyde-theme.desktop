@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=HyDE Theme Switcher
+Comment=Browse HyDE themes and apply colours, wallpaper, GTK and terminal theme
+Exec=hyde-shell theme.select
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;DesktopSettings;GTK;
+Keywords=theme;wallpaper;hyde;colors;
+StartupNotify=false
