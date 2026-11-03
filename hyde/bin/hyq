@@ -1,0 +1,292 @@
+#!/usr/bin/env python3
+"""Minimal hyprlang query/dump tool (hyq compatible subset).
+
+HyDE uses `hyq` from the `hyprquery` package.  This shim implements the small
+subset HyDE actually needs:
+
+  hyq <file> -Q '$VAR'            print a theme variable
+  hyq -s --query '$VAR' <file>    print a theme variable (sanitized)
+  hyq --dump <file> --schema <s> --export lua
+  hyq --dump <file> --schema <s> --export nested-json
+
+Only keys present in the schema are exported, matching hyprquery's behaviour.
+"""
+from __future__ import annotations
+
+import json
+import re
+import sys
+
+BOOL_TRUE = {"yes", "on", "true", "1", "enable", "enabled"}
+BOOL_FALSE = {"no", "off", "false", "0", "disable", "disabled"}
+NUM_RE = re.compile(r"^-?\d+$")
+FLOAT_RE = re.compile(r"^-?\d*\.\d+$")
+ANGLE_RE = re.compile(r"^(-?\d+(?:\.\d+)?)(?:deg)?$")
+
+
+def strip_comment(line: str) -> str:
+    out = []
+    quote = None
+    for ch in line:
+        if quote:
+            out.append(ch)
+            if ch == quote:
+                quote = None
+            continue
+        if ch in ("'", '"'):
+            quote = ch
+            out.append(ch)
+            continue
+        if ch == "#":
+            break
+        out.append(ch)
+    return "".join(out)
+
+
+def unquote(value: str) -> str:
+    value = value.strip()
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+        return value[1:-1]
+    return value
+
+
+class Theme:
+    def __init__(self, path: str):
+        self.path = path
+        self.vars: dict[str, str] = {}
+        self.entries: list[tuple[str, str]] = []  # (dotted key, raw value)
+        self._parse()
+
+    def resolve(self, value: str) -> str:
+        def repl(match: re.Match[str]) -> str:
+            name = match.group(1)
+            return self.vars.get(name, match.group(0))
+
+        # resolve up to a few levels so $FOO = $BAR works
+        for _ in range(5):
+            new = re.sub(r"\$([A-Za-z_][A-Za-z0-9_]*)", repl, value)
+            if new == value:
+                break
+            value = new
+        return value
+
+    def _parse(self) -> None:
+        stack: list[str] = []
+        try:
+            with open(self.path, encoding="utf-8", errors="replace") as handle:
+                lines = handle.readlines()
+        except OSError:
+            return
+        for raw in lines:
+            line = strip_comment(raw).strip()
+            if not line:
+                continue
+            if line.startswith("$") and "=" in line:
+                name, value = line[1:].split("=", 1)
+                self.vars[name.strip()] = unquote(self.resolve(value))
+                continue
+            if line.endswith("{"):
+                name = line[:-1].strip()
+                if name:
+                    stack.append(name.replace(":", "."))
+                continue
+            if line == "}":
+                if stack:
+                    stack.pop()
+                continue
+            if "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip().replace(":", ".")
+            value = unquote(value)
+            full = ".".join(stack + [key]) if stack else key
+            self.entries.append((full, value))
+
+    def lookup(self, name: str) -> str | None:
+        name = name.lstrip("$").strip()
+        if name in self.vars:
+            return self.vars[name]
+        for key, value in self.entries:
+            if key == name or key.split(".")[-1] == name:
+                return value
+        return None
+
+
+def load_schema(path: str | None) -> dict[str, dict]:
+    if not path:
+        return {}
+    try:
+        with open(path, encoding="utf-8") as handle:
+            data = json.load(handle)
+    except (OSError, json.JSONDecodeError):
+        return {}
+    result: dict[str, dict] = {}
+    for item in data.get("hyprlang_schema", []):
+        value = item.get("value", "")
+        result[value.replace(":", ".")] = item
+    return result
+
+
+def convert(value: str, schema_type: str | None):
+    value = value.strip()
+    if schema_type == "BOOL" or schema_type is None:
+        low = value.lower()
+        if low in BOOL_TRUE:
+            return True
+        if low in BOOL_FALSE:
+            return False
+    if schema_type == "INT":
+        try:
+            return int(float(value))
+        except ValueError:
+            return value
+    if schema_type == "FLOAT":
+        try:
+            return float(value)
+        except ValueError:
+            return value
+    if schema_type in ("STRING_SHORT", "STRING_LONG"):
+        # A few options the schema calls strings are numeric (gaps, offsets).
+        # Hyprland's Lua API wants numbers for those.
+        if NUM_RE.match(value):
+            return int(value)
+        if FLOAT_RE.match(value):
+            return float(value)
+        return value
+    if schema_type == "GRADIENT":
+        tokens = value.split()
+        if len(tokens) >= 2 and ANGLE_RE.match(tokens[-1]) and (
+            tokens[-1].endswith("deg") or len(tokens) >= 3 or not tokens[0].startswith("rgba")
+        ):
+            if len(tokens) >= 2:
+                angle = ANGLE_RE.match(tokens[-1]).group(1)
+                return {
+                    "colors": tokens[:-1],
+                    "angle": int(angle) if NUM_RE.match(angle) else float(angle),
+                }
+        return value
+    return value
+
+
+def lua_literal(value) -> str:
+    if value is True:
+        return "true"
+    if value is False:
+        return "false"
+    if isinstance(value, (int, float)):
+        return repr(value)
+    if isinstance(value, str):
+        escaped = value.replace("\\", "\\\\").replace('"', '\\"')
+        return '"' + escaped + '"'
+    if isinstance(value, list):
+        return "{" + ", ".join(lua_literal(v) for v in value) + "}"
+    if isinstance(value, dict):
+        parts = []
+        for key, item in value.items():
+            if re.match(r"^[A-Za-z_][A-Za-z0-9_]*$", key):
+                parts.append(f"{key} = {lua_literal(item)}")
+            else:
+                parts.append(f"['{key}'] = {lua_literal(item)}")
+        return "{" + ", ".join(parts) + "}"
+    return "nil"
+
+
+def nest(flat: list[tuple[str, object]]) -> dict:
+    root: dict = {}
+    for key, value in flat:
+        node = root
+        parts = key.split(".")
+        for part in parts[:-1]:
+            node = node.setdefault(part, {})
+            if not isinstance(node, dict):
+                break
+        else:
+            node[parts[-1]] = value
+    return root
+
+
+def dump(path: str, schema_path: str | None, export: str) -> int:
+    theme = Theme(path)
+    schema = load_schema(schema_path)
+    entries: list[tuple[str, object]] = []
+    for key, raw in theme.entries:
+        item = schema.get(key) if schema else None
+        if schema and item is None:
+            continue
+        schema_type = item.get("type") if item else None
+        entries.append((key, convert(theme.resolve(raw), schema_type)))
+    nested = nest(entries)
+    if export in ("nested-json", "json"):
+        print(json.dumps(nested, indent=2))
+        return 0
+    print("return " + lua_literal(nested))
+    return 0
+
+
+def main(argv: list[str]) -> int:
+    args = argv[1:]
+    if not args:
+        print(__doc__, file=sys.stderr)
+        return 2
+    sanitized = False
+    query = None
+    dump_path = None
+    schema = None
+    export = "lua"
+    files: list[str] = []
+    index = 0
+    while index < len(args):
+        arg = args[index]
+        if arg in ("-s", "--sanitize"):
+            sanitized = True
+        elif arg in ("-Q", "--query"):
+            index += 1
+            query = args[index] if index < len(args) else None
+        elif arg.startswith("--query="):
+            query = arg.split("=", 1)[1]
+        elif arg == "--dump":
+            index += 1
+            dump_path = args[index] if index < len(args) else None
+        elif arg.startswith("--dump="):
+            dump_path = arg.split("=", 1)[1]
+        elif arg == "--schema":
+            index += 1
+            schema = args[index] if index < len(args) else None
+        elif arg.startswith("--schema="):
+            schema = arg.split("=", 1)[1]
+        elif arg == "--export":
+            index += 1
+            export = args[index] if index < len(args) else "lua"
+        elif arg.startswith("--export="):
+            export = arg.split("=", 1)[1]
+        elif arg in ("-h", "--help"):
+            print(__doc__)
+            return 0
+        else:
+            files.append(arg)
+        index += 1
+    if dump_path is None:
+        dump_path = files[0] if files else None
+    if dump_path is None:
+        print("hyq: missing file", file=sys.stderr)
+        return 2
+    if query is not None:
+        theme = Theme(dump_path)
+        hint = None
+        match = re.match(r"^(.*?)\[([A-Za-z0-9_]+)\]$", query.strip())
+        if match:
+            query, hint = match.group(1), match.group(2)
+        value = theme.lookup(query)
+        if value is None:
+            return 1
+        if hint == "int":
+            value = value.strip()
+            if not NUM_RE.match(value):
+                return 1
+        print(value if sanitized or hint else value)
+        return 0
+    return dump(dump_path, schema, export)
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

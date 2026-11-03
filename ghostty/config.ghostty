@@ -51,14 +51,11 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
-# Theme
-theme = Catppuccin Mocha
-
-# Appearance
-font-family = GoogleSansCode Nerd Font Mono
-font-size = 12
-window-padding-x = 14
-window-padding-y = 12
+# Appearance (ported from HyDE's kitty/hyde.conf)
+font-family = CaskaydiaCove Nerd Font Mono
+font-size = 9
+window-padding-x = 25
+window-padding-y = 25
 window-padding-balance = true
 background-opacity = 0.90
 background-opacity-cells = true
@@ -68,3 +65,7 @@ cursor-style = block
 cursor-style-blink = true
 mouse-hide-while-typing = true
 copy-on-select = clipboard
+
+# Colours are generated from the active HyDE theme by
+# ~/.local/lib/hyde/ghostty-sync.py and reloaded on every theme switch.
+config-file = /home/jp/.config/ghostty/hyde-theme.conf

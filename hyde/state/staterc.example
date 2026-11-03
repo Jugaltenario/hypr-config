@@ -1,0 +1,4 @@
+HYDE_THEME="Catppuccin Mocha"
+WALLPAPER_BACKEND="hyprpaper"
+WALLPAPER_CUSTOM_PATHS=("/home/jp/Pictures/Wallpaper")
+enableWallDcol=0

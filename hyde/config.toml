@@ -1,0 +1,37 @@
+# Configuration file for HyDE
+# Updated config.toml file can be found at $HOME/.local/share/hyde/config.toml
+"$schema" = "https://raw.githubusercontent.com/HyDE-Project/HyDE/refs/heads/master/Configs/.local/share/hyde/schema/config.toml.json"
+
+# Wallpaper configuration.
+[wallpaper]
+custom_paths = ["/home/jp/Pictures/Wallpaper"]
+backend = "hyprpaper"
+
+# Desktop application defaults (HyDE maps [desktop.app] to hyde.config.app).
+[desktop.app]
+terminal = "ghostty"
+explorer = "nautilus"
+browser = "hyde-shell open --fall firefox web-browser"
+editor = "hyde-shell open --fall code-oss code-editor"
+
+# Startup commands. Empty strings disable HyDE's defaults, so the user's own
+# choices (waybar, swaync, hypridle) are used instead of HyDE's bar/dunst.
+[desktop.start]
+wallpaper = "hyde-shell wallpaper --start --global"
+bar = "waybar"
+notifications = "swaync"
+idle_daemon = "hypridle"
+blue_light_filter_daemon = ""
+text_clipboard = "wl-paste --type text --watch cliphist store"
+image_clipboard = "wl-paste --type image --watch cliphist store"
+clipboard_persist = ""
+battery_notify = ""
+auth_dialogue = ""
+applet_network_manager = ""
+applet_removable_media = ""
+applet_bluetooth = ""
+hyde_config = ""
+
+# Theme mode: colours come from the selected HyDE theme (not the wallpaper).
+[wallbash]
+mode = "theme"
