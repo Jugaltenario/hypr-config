@@ -23,7 +23,7 @@ from pathlib import Path
 HOME = Path.home()
 DATA = HOME / ".config/hypr/keybindings.json"
 RENDERER = HOME / ".config/hypr/scripts/gen-keybinds.py"
-DEFAULT_PDF = HOME / "Desktop/HyDE-Keybindings.pdf"
+DEFAULT_PDF = HOME / "Desktop/Keybindings.pdf"
 MAX_BINDS_PER_CARD = 10
 
 MODIFIERS = (

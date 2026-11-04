@@ -1,144 +1,113 @@
 # hypr-config
 
-Personal Hyprland rice backed up from `~/.config`, now running on top of
-[HyDE](https://github.com/HyDE-Project/HyDE).
+A personal Hyprland desktop setup for Arch/CachyOS: a mechabar-style Waybar,
+Ghostty terminal, rofi launcher, Nautilus, swaync notifications, fish, fastfetch
+and a theme switcher that keeps the wallpaper, bar, terminal and GTK apps in
+sync.
 
-HyDE is the framework (themes, wallpapers, keybinds, Lua modules). The files in
-this repo are the user layer: the mechabar waybar layout, Ghostty, Nautilus and
-the personal fastfetch config stay in charge, and HyDE only recolours them.
+This repo is a personal configuration, not a desktop distribution. Review the
+scripts before running them, and back up your existing config first.
 
-## Layout
+## What you get
 
-- `hypr/` — `hyprland.lua` (personal entrypoint + HyDE bootstrap), hyprlock,
-  hyprpaper config, custom scripts, assets + wallpapers
-- `waybar/` — mechabar layout; `style.css` imports the generated
-  `themes/hyde.css` palette, so only colours follow the HyDE theme
-- `hyde/` — local HyDE overrides (see below)
-- `ghostty/` — base config + generated `hyde-theme.conf` palette
-- `rofi/`, `swaync/`, `fastfetch/`, `micro/`
-- `fish/` — config, `conf.d/hyde.fish`, and HyDE's helper functions
-  (`bind_M_n_history`, `_hyde_editor`, `fzf/*`)
-- `gtk-3.0/`, `nwg-look/`, `autostart/`, `mimeapps.list`
-- `applications/hyde-theme.desktop` — theme switcher entry for rofi/app menus
+- **Window management** — Hyprland Lua config with dwindle and scrolling
+  layouts, workspaces, scratchpad, rules, animations and media keys.
+- **Waybar** — the mechabar layout: workspaces, window title, media, CPU, RAM,
+  disk, network, Bluetooth, volume, brightness, battery, clock and tray.
+- **Ghostty** — terminal config with padding, blur and a generated theme.
+- **rofi** — application launcher, window switcher, clipboard and searchable
+  keybinding overlay.
+- **Nautilus** — file manager with matching GTK3/GTK4 colours.
+- **swaync** — notification popups and control centre.
+- **Theme switching** — 12 themes that recolour Waybar, Ghostty, GTK apps,
+  cursor, fonts and the wallpaper together.
+- **Keybinding reference** — a generator that turns the live Hyprland config
+  into a PDF and a searchable rofi overlay.
 
-`fish/conf.d/hyde.fish` calls `bind_M_n_history`; if fish says
-`Unknown command: bind_M_n_history`, the matching file in
-`fish/functions/` was not installed.
+## Repository layout
 
-## Theme switcher
-
-Open HyDE's visual picker with:
-
-- `SUPER + SHIFT + T`, or
-- `hyde-shell theme.select` in a terminal, or
-- **HyDE Theme Switcher** in rofi's application list.
-
-Use `SUPER + ALT + Up` / `SUPER + ALT + Down` to cycle themes without opening
-the picker. The picker shows wallpaper thumbnails; `thmbDir` must contain a
-`.sqre` thumbnail for every theme or entries appear blank. Rebuild them with
-`hyde-shell wallpaper --cache theme "<theme name>"`.
-
-## Shortcut reference
-
-`~/.config/hypr/scripts/gen-all-keybinds.py` builds a complete shortcut
-reference from the *live* Hyprland config, so it includes both the personal and
-HyDE bindings:
-
-```bash
-~/.config/hypr/scripts/gen-all-keybinds.py
-# -> ~/Desktop/HyDE-Keybindings.pdf
+```text
+hypr/          Hyprland entrypoint, Lua config, hyprlock, hyprpaper, scripts
+waybar/        mechabar layout and generated palette
+ghostty/       terminal config and generated palette
+rofi/          launcher config and themes
+swaync/        notification daemon config
+fish/          shell config and helper functions
+fastfetch/     system info config
+micro/         editor config
+gtk-3.0/       GTK3 settings
+gtk-4.0/       GTK4 settings; later managed by the theme switcher
+nwg-look/      GTK appearance settings
+hyde/          helper-layer overrides and theme-switch scripts
+applications/  desktop entries
 ```
 
-It also rewrites `~/.config/hypr/keybindings.json`, which powers the searchable
-`SUPER + /` rofi overlay. Re-run the script after adding or changing a bind.
-The PDF is grouped by HyDE's bind categories (`Launcher`, `Window Management`,
-`Workspaces`, etc.) and includes mouse and media-key shortcuts.
+## Requirements
 
-## How theming works
+You need a working Hyprland/Wayland session. The commands below assume
+Arch/CachyOS package names.
 
-`hyde-shell theme.switch` (or `hyde-shell theme.select`) writes HyDE's colour
-state. Three hooks then recolour the personal apps:
+The config also expects the helper layer used by `hyprland.lua` and the theme
+switcher (`hyde-shell`, `hyde.sh`, the Lua modules and theme files). This repo
+contains the personal configuration and local overrides, not that base layer.
+Install the base layer first if `hyde-shell` is not already available.
 
-1. `~/.config/hyde/scripts/theme.switch.sh` wraps HyDE's switch and calls
-   `theme-apply.sh`.
-2. `theme-apply.sh` runs `~/.local/lib/hyde/mechabar-sync.py`, which reads
-   HyDE's `~/.config/waybar/theme.css` and writes the mechabar palette
-   (`~/.config/waybar/themes/hyde.css`), then reloads Waybar.
-3. `~/.local/lib/hyde/ghostty-sync.py` converts the theme's `kitty.theme` into
-   `~/.config/ghostty/hyde-theme.conf` and reloads Ghostty.
+Core packages:
 
-Nautilus follows the GTK theme HyDE writes (`gtk-3.0/settings.ini`,
-`gtk-4.0` symlink, cursor and fonts). `~/.config/gtk-4.0` is managed by HyDE —
-do not restore the old `gtk-4.0` directory from this repo after HyDE is set up.
+```bash
+sudo pacman -S hyprland waybar rofi swaync hyprpaper hyprlock ghostty \
+  nautilus fish fastfetch jq grim slurp hyprshot wl-clipboard \
+  brightnessctl playerctl python python-gobject python-cairo \
+  imagemagick ffmpeg parallel
+```
 
-### Local HyDE fixes carried in `hyde/`
-
-These are local edits on top of upstream HyDE `fa2fd57` (2026-11-03). Copy them
-back after installing/updating HyDE:
-
-- `bin/hyq` — Python compatibility shim for `hyprquery` (`hyq`), which HyDE
-  calls but which is not packaged on this system.
-- `lib/globalcontrol.sh` — defaults `HYPRLAND_CONFIG`, so `theme.switch.sh`
-  loads the theme's own GTK/font/cursor variables instead of falling back to
-  `Wallbash-Gtk`.
-- `lib/color/hypr.sh` — seeds UI state from `env-theme`, restores those
-  defaults when a theme omits a value, and records the `terminal`.
-- `lib/color.set.sh` — falls back to `color/dconf.py` when the Lua `lgi`
-  binding is unavailable.
-- `lib/color/dconf.py` — PyGObject replacement for upstream `dconf.lua`
-  (gsettings theme/cursor/font/terminal, `hyprctl setcursor`).
-- `lib/wallpaper.hyprpaper.sh` — loads the lock helpers when invoked as a
-  child of `wallpaper.sh`, and supports hyprpaper >= 0.8 (which dropped the
-  `hyprctl hyprpaper` IPC): rewrites the config and restarts the service.
-  Paths are published through a space-free `~/.cache/hyde/hyprpaper/wall.*`
-  symlink because hyprpaper misparses quoted paths containing spaces (every
-  HyDE theme name has one). The script also removes manually started
-  hyprpaper instances so only the systemd service owns the socket.
-- `lib/mechabar-sync.py` — HyDE palette → mechabar `hyde.css`.
-- `lib/ghostty-sync.py` — HyDE `kitty.theme` → Ghostty config.
-- `lib/rofilaunch.sh` — HyDE's rofi launcher, used by `SUPER + SPACE`. The
-  toggle uses `pkill -x rofi`; plain `pkill rofi` also matched (and tried to
-  kill) `power-profiles-daemon`.
-- `scripts/waybar.sh` — refuses HyDE's layout-changing `waybar --next/--set`
-  commands so a theme cannot overwrite mechabar; allows `--update`/`--hide`.
-
-`hyde/config.toml` selects hyprpaper, Ghostty, Nautilus, swaync and the
-personal waybar; `hyde/share/env-theme` sets `TERMINAL="ghostty"` and the
-cursor; `hyde/state/staterc.example` is the saved theme state.
-
-## Dependencies (Arch/CachyOS)
-
-Already needed by the rice:
-
-`hyprland` `waybar` `rofi` `swaync` `hyprpaper` `hyprlock` `ghostty`
-`nautilus` `fastfetch` `fish` `python` `python-gobject` `jq` `grim` `slurp`
-`hyprshot` `wl-clipboard` `brightnessctl` `pamixer`
-
-Recommended for the full HyDE feature set (some binds and the Lua tooling are
-disabled without them):
+Optional extras for the full set of binds and features:
 
 ```bash
 sudo pacman -S lua-lgi luarocks uwsm hyprsunset wl-clip-persist satty \
   hyprpicker qt5ct qt6ct ttf-cascadia-code-nerd ttf-cascadia-mono-nerd \
-  network-manager-applet udiskie blueman polkit-kde-agent awww
+  network-manager-applet udiskie blueman polkit-kde-agent
 ```
 
-`ttf-cascadia-*-nerd` provides the `CaskaydiaCove Nerd Font Mono` used by
-Ghostty. `awww` is optional: this setup uses `hyprpaper`.
-
-After installing fonts, refresh the cache and restart Ghostty:
+`ttf-cascadia-*-nerd` provides the terminal font. After installing fonts:
 
 ```bash
 fc-cache -f
 ```
 
-## Restore
+## Install
 
-1. Install HyDE from upstream (its own `install.sh`), then copy the local
-   overrides:
+1. Clone the repo and back up anything you already have:
 
    ```bash
+   git clone https://github.com/Jugaltenario/hypr-config.git ~/hypr-config
    cd ~/hypr-config
+
+   backup="$HOME/.config-backup-$(date +%Y%m%d-%H%M%S)"
+   mkdir -p "$backup"
+   for item in hypr waybar rofi swaync ghostty fish fastfetch micro \
+       gtk-3.0 gtk-4.0 nwg-look autostart mimeapps.list; do
+       [ -e "$HOME/.config/$item" ] && cp -a "$HOME/.config/$item" "$backup/"
+   done
+   echo "Backup: $backup"
+   ```
+
+2. Copy the desktop configs:
+
+   ```bash
+   cp -r hypr waybar rofi swaync ghostty fastfetch fish micro \
+     gtk-3.0 nwg-look autostart ~/.config/
+   cp mimeapps.list ~/.config/
+   mkdir -p ~/.local/share/applications
+   cp applications/hyde-theme.desktop ~/.local/share/applications/
+   ```
+
+3. Copy the helper-layer overrides and theme scripts:
+
+   ```bash
+   mkdir -p ~/.local/bin ~/.local/lib/hyde/color \
+     ~/.config/hyde/scripts ~/.local/share/hyde ~/.local/state/hyde
+
    cp hyde/bin/hyq ~/.local/bin/hyq
    cp hyde/lib/*.py hyde/lib/*.sh ~/.local/lib/hyde/
    cp hyde/lib/color/* ~/.local/lib/hyde/color/
@@ -146,51 +115,81 @@ fc-cache -f
    cp hyde/scripts/*.sh ~/.config/hyde/scripts/
    cp hyde/share/env-theme ~/.local/share/hyde/env-theme
    cp hyde/state/staterc.example ~/.local/state/hyde/staterc
+
    chmod +x ~/.local/bin/hyq ~/.config/hyde/scripts/*.sh
    ```
 
-2. Copy the personal configs:
+4. Replace the old home path in the copied files:
 
    ```bash
-   cp -r hypr waybar rofi swaync ghostty fastfetch fish micro gtk-3.0 \
-     nwg-look autostart ~/.config/
-   cp mimeapps.list ~/.config/
-   mkdir -p ~/.local/share/applications
-   cp applications/hyde-theme.desktop ~/.local/share/applications/
+   grep -rl '/home/jp' ~/.config/hypr ~/.config/ghostty ~/.config/fish \
+     ~/.config/hyde ~/.local/share/hyde ~/.local/state/hyde 2>/dev/null |
+     xargs -r sed -i "s|/home/jp|$HOME|g"
    ```
 
-3. Wallpapers stay at their original paths:
+5. Add the wallpapers:
 
    ```bash
    mkdir -p ~/Pictures/Wallpaper
    cp hypr/assets/wallpapers/* ~/Pictures/Wallpaper/
    ```
 
-4. Generate the colours for the selected theme:
+6. Apply a theme and generate the palettes:
 
    ```bash
    hyde-shell theme.switch -s "Catppuccin Mocha"
    ```
 
-   This writes `waybar/themes/hyde.css`, `ghostty/hyde-theme.conf`,
-   `gtk-3.0/settings.ini` and the `gtk-4.0` symlink.
+7. Log out and start a new Hyprland session. If you use a display manager,
+   choose Hyprland there; otherwise start it from a TTY with `Hyprland`.
 
-## Keybinds changed from HyDE defaults
+## Daily use
 
-- `SUPER + ALT + Up/Down` — next/previous HyDE theme (HyDE normally uses these
-  to switch its own waybar layouts, which would overwrite mechabar).
-- `SUPER + SHIFT + T` — HyDE theme picker (recolours waybar + Ghostty).
-- `SUPER + SPACE` — HyDE's rofi launcher (`hyde-shell rofilaunch`, `style_1`)
-  instead of the personal `rofi -show drun` config. It uses
-  `~/.config/rofi/theme.rasi`, which the theme switcher regenerates, so the
-  launcher follows the active HyDE theme. Pressing it again closes the window.
-- `SUPER + E` — Nautilus.
-- `SUPER + Return` — Ghostty.
-- `SUPER + /` — searchable keybinding overlay.
+- `SUPER + Return` — Ghostty
+- `SUPER + E` — Nautilus
+- `SUPER + Space` — application launcher
+- `SUPER + Shift + T` — theme picker
+- `SUPER + Alt + Up/Down` — next/previous theme
+- `SUPER + /` — searchable keybinding overlay
 
-## Rollback
+The theme picker's wallpaper previews come from a thumbnail cache. If a theme
+shows a blank preview, rebuild that theme's thumbnails:
 
-The pre-HyDE state is archived locally at
-`/tmp/opencode/pre-hyde-20261103-110222.tar.gz` (not in this repo). Extract it
-over `~/.config` and remove HyDE's bootstrap from `hypr/hyprland.lua` to return
-to the old setup.
+```bash
+hyde-shell wallpaper --cache theme "Catppuccin Mocha"
+```
+
+## Keybinding PDF
+
+Generate a printable reference from the running Hyprland config:
+
+```bash
+~/.config/hypr/scripts/gen-all-keybinds.py
+```
+
+The PDF is written to `~/Desktop/Keybindings.pdf` and
+`~/.config/hypr/keybindings.json` is refreshed for the `SUPER + /` overlay.
+Re-run it after adding or changing a bind.
+
+## Notes
+
+- `~/.config/gtk-4.0` is managed by the theme switcher after the first switch.
+  Do not copy a stale `gtk-4.0` directory over it later.
+- Wallpaper changes are handled by `hyprpaper.service`. Do not launch
+  `hyprpaper` manually, or you will end up with competing instances.
+- If fish reports `Unknown command: bind_M_n_history`, the helper functions
+  under `fish/functions/` were not copied. Re-run step 2.
+- The config uses `Nautilus`, `Ghostty` and `Waybar`; if you prefer different
+  applications, update the variables at the top of `hypr/hyprland.lua`.
+- This setup is tuned for a single laptop display. Review the monitor block in
+  `hypr/hyprland.lua` before using it on a multi-monitor desktop.
+
+## Updating
+
+```bash
+cd ~/hypr-config
+git pull
+```
+
+Then copy the changed files you want to keep, and re-run
+`hyde-shell theme.switch -s "<theme>"` if Waybar or Ghostty colours look stale.
