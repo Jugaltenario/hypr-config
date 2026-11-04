@@ -16,7 +16,7 @@ scripts before running them, and back up your existing config first.
   disk, network, Bluetooth, volume, brightness, battery, clock and tray.
 - **Ghostty** — terminal config with padding, blur and a generated theme.
 - **rofi** — application launcher, window switcher, clipboard and searchable
-  keybinding overlay.
+  keybinding overlay, with Brave as the default browser.
 - **Nautilus** — file manager with matching GTK3/GTK4 colours.
 - **swaync** — notification popups and control centre.
 - **Theme switching** — 12 themes that recolour Waybar, Ghostty, GTK apps,
@@ -74,6 +74,11 @@ sudo pacman -S lua-lgi luarocks uwsm hyprsunset wl-clip-persist satty \
 ```bash
 fc-cache -f
 ```
+
+The launcher and `SUPER + B` use Brave. Install it with `sudo pacman -S
+brave-bin` on CachyOS, or from the AUR on plain Arch. If you use a different
+browser, change `browser` in `~/.config/hyde/config.toml` and the default
+entries in `~/.config/mimeapps.list`.
 
 ## Install
 
@@ -146,6 +151,7 @@ fc-cache -f
 ## Daily use
 
 - `SUPER + Return` — Ghostty
+- `SUPER + B` — Brave
 - `SUPER + E` — Nautilus
 - `SUPER + Space` — application launcher
 - `SUPER + Shift + T` — theme picker

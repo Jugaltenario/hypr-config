@@ -11,7 +11,7 @@ backend = "hyprpaper"
 [desktop.app]
 terminal = "ghostty"
 explorer = "nautilus"
-browser = "hyde-shell open --fall firefox web-browser"
+browser = "brave"
 editor = "hyde-shell open --fall code-oss code-editor"
 
 # Startup commands. Empty strings disable HyDE's defaults, so the user's own
