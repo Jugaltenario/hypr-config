@@ -80,6 +80,9 @@ back after installing/updating HyDE:
   hyprpaper instances so only the systemd service owns the socket.
 - `lib/mechabar-sync.py` — HyDE palette → mechabar `hyde.css`.
 - `lib/ghostty-sync.py` — HyDE `kitty.theme` → Ghostty config.
+- `lib/rofilaunch.sh` — HyDE's rofi launcher, used by `SUPER + SPACE`. The
+  toggle uses `pkill -x rofi`; plain `pkill rofi` also matched (and tried to
+  kill) `power-profiles-daemon`.
 - `scripts/waybar.sh` — refuses HyDE's layout-changing `waybar --next/--set`
   commands so a theme cannot overwrite mechabar; allows `--update`/`--hide`.
 
@@ -161,6 +164,10 @@ fc-cache -f
 - `SUPER + ALT + Up/Down` — next/previous HyDE theme (HyDE normally uses these
   to switch its own waybar layouts, which would overwrite mechabar).
 - `SUPER + SHIFT + T` — HyDE theme picker (recolours waybar + Ghostty).
+- `SUPER + SPACE` — HyDE's rofi launcher (`hyde-shell rofilaunch`, `style_1`)
+  instead of the personal `rofi -show drun` config. It uses
+  `~/.config/rofi/theme.rasi`, which the theme switcher regenerates, so the
+  launcher follows the active HyDE theme. Pressing it again closes the window.
 - `SUPER + E` — Nautilus.
 - `SUPER + Return` — Ghostty.
 - `SUPER + /` — searchable keybinding overlay.
