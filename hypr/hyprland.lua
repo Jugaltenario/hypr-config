@@ -401,58 +401,88 @@ hl.bind(mainMod .. " + SLASH",
 -- Vim-style window movement.
 -- Dwindle: Super+Shift+H/J/K/L moves the focused window.
 -- Scrolling: H/L move between columns; J/K shrink the column and dock it left.
-hl.bind(mainMod .. " + SHIFT + H", function() return vimMove("left") end)
-hl.bind(mainMod .. " + SHIFT + J", function() return vimMove("down") end)
-hl.bind(mainMod .. " + SHIFT + K", function() return vimMove("up") end)
-hl.bind(mainMod .. " + SHIFT + L", function() return vimMove("right") end)
+hl.bind(mainMod .. " + SHIFT + H", function() return vimMove("left") end,
+    { description = "[Window Management|Move active window] move window left (dwindle) · previous column (scrolling)" })
+hl.bind(mainMod .. " + SHIFT + J", function() return vimMove("down") end,
+    { description = "[Window Management|Move active window] move window down (dwindle) · dock column left (scrolling)" })
+hl.bind(mainMod .. " + SHIFT + K", function() return vimMove("up") end,
+    { description = "[Window Management|Move active window] move window up (dwindle) · dock column left (scrolling)" })
+hl.bind(mainMod .. " + SHIFT + L", function() return vimMove("right") end,
+    { description = "[Window Management|Move active window] move window right (dwindle) · next column (scrolling)" })
 
 -- Scrolling layout: Alt+H/L move the focused window left/right.
-hl.bind(mainMod .. " + ALT + H", function() return scrollMove("left") end)
-hl.bind(mainMod .. " + ALT + L", function() return scrollMove("right") end)
+hl.bind(mainMod .. " + ALT + H", function() return scrollMove("left") end,
+    { description = "[Window Management|Move active window] swap focused column left (scrolling)" })
+hl.bind(mainMod .. " + ALT + L", function() return scrollMove("right") end,
+    { description = "[Window Management|Move active window] swap focused column right (scrolling)" })
 
 -- Dwindle: split toggle (moved off Super+J).
-hl.bind(mainMod .. " + ALT + J", toggleSplit)
+hl.bind(mainMod .. " + ALT + J", toggleSplit,
+    { description = "[Layout Management] toggle split direction (dwindle)" })
 
 -- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }),  { description = "[Window Management] move focus left" })
+hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }), { description = "[Window Management] move focus right" })
+hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }),    { description = "[Window Management] move focus up" })
+hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }),  { description = "[Window Management] move focus down" })
 
 -- Scrolling layout column width presets.
-hl.bind(mainMod .. " + plus", hl.dsp.layout("colresize +conf"))
-hl.bind(mainMod .. " + minus", hl.dsp.layout("colresize -conf"))
+hl.bind(mainMod .. " + plus", hl.dsp.layout("colresize +conf"),
+    { description = "[Layout Management] grow focused column width (scrolling)" })
+hl.bind(mainMod .. " + minus", hl.dsp.layout("colresize -conf"),
+    { description = "[Layout Management] shrink focused column width (scrolling)" })
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i}))
-    hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + " .. key,         hl.dsp.focus({ workspace = i}),
+        { description = "[Workspaces] focus workspace " .. i })
+    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }),
+        { description = "[Workspaces|Move window to workspace] send focused window to workspace " .. i })
 end
 
 -- Example special workspace (scratchpad)
-hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + p", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"),
+    { description = "[Workspaces] toggle special scratchpad workspace" })
+-- locked=true matches HyDE's own Super+Shift+P colour-picker bind, so HyDE's
+-- deduplicator removes that one (hyprpicker is not installed) and keeps this.
+hl.bind(mainMod .. " + SHIFT + p", hl.dsp.window.move({ workspace = "special:magic" }),
+    { locked = true, description = "[Workspaces|Move window to workspace] send focused window to scratchpad" })
 
 -- Scroll through existing workspaces with mainMod + scroll
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }),
+    { description = "[Workspaces] next workspace (scroll down)" })
+hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }),
+    { description = "[Workspaces] previous workspace (scroll up)" })
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true,
+    description = "[Window Management|Drag & Resize with mouse] drag to move window" })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true,
+    description = "[Window Management|Drag & Resize with mouse] drag to resize window" })
 
--- Laptop multimedia keys for volume and LCD brightness
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true })
-hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true })
-hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"),                  { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"),                  { locked = true, repeating = true })
+-- Laptop multimedia keys for volume and LCD brightness.
+-- Mute uses the same flags as HyDE's bind so dedup keeps this wpctl version
+-- (HyDE's volumecontrol needs pamixer, which is not installed).
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
+    { locked = true, repeating = true, description = "[Hardware Controls|Audio] increase output volume" })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+    { locked = true, repeating = true, description = "[Hardware Controls|Audio] decrease output volume" })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+    { locked = true, description = "[Hardware Controls|Audio] mute / unmute output" })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
+    { locked = true, description = "[Hardware Controls|Audio] mute / unmute microphone" })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"),
+    { locked = true, repeating = true, description = "[Hardware Controls|Brightness] increase screen brightness" })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"),
+    { locked = true, repeating = true, description = "[Hardware Controls|Brightness] decrease screen brightness" })
 
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"),
+    { locked = true, description = "[Hardware Controls|Media] play / pause" })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"),
+    { locked = true, description = "[Hardware Controls|Media] play / pause" })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"),
+    { locked = true, description = "[Hardware Controls|Media] previous track" })
 
 -- Screenshot keybindings (Hyprshot)
 

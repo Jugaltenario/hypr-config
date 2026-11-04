@@ -1,95 +1,1547 @@
 {
   "title": "Hyprland Keybindings",
-  "eyebrow": "CATPPUCCIN MOCHA  ·  HYPRLAND 0.57  ·  LUA CONFIG",
-  "subtitle": "Every shortcut in one place. Hold Super, then press the keys shown.",
-  "footer": "~/.config/hypr/keybindings.json",
+  "eyebrow": "LIVE HYPRCTL BINDS · HYPRLAND 0.57.0 · 2026-11-04",
+  "subtitle": "Every active shortcut (177 binds). Hold Super, then press the keys shown. Generated from the running Hyprland config.",
+  "footer": "~/.config/hypr/keybindings.json · regenerate with gen-all-keybinds.py",
   "categories": [
     {
-      "id": "apps",
-      "name": "Apps & Windows",
+      "id": "launcher-apps",
+      "name": "Launcher · Apps",
       "accent": "blue",
       "binds": [
-        { "keys": ["Super", "Return"], "desc": "Open terminal (Ghostty)" },
-        { "keys": ["Super", "Space"], "desc": "App launcher (rofi)" },
-        { "keys": ["Super", "E"], "desc": "Open file manager (Nautilus)" },
-        { "keys": ["Super", "Q"], "desc": "Close the focused window" },
-        { "keys": ["Super", "V"], "desc": "Toggle floating mode" },
-        { "keys": ["Super", "P"], "desc": "Toggle pseudo-tiling" },
-        { "keys": ["Super", "M"], "desc": "Exit Hyprland / shutdown menu" },
-        { "keys": ["Super", "Shift", "Escape"], "desc": "Lock the screen (hyprlock)" }
-      ]
+        {
+          "keys": [
+            "Super",
+            "T"
+          ],
+          "desc": "terminal emulator"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "T"
+          ],
+          "desc": "dropdown terminal"
+        },
+        {
+          "keys": [
+            "Super",
+            "B"
+          ],
+          "desc": "browser"
+        },
+        {
+          "keys": [
+            "Super",
+            "C"
+          ],
+          "desc": "text editor"
+        },
+        {
+          "keys": [
+            "Ctrl",
+            "Shift",
+            "Esc"
+          ],
+          "desc": "system monitor"
+        },
+        {
+          "keys": [
+            "Super",
+            "↵"
+          ],
+          "desc": "terminal emulator"
+        },
+        {
+          "keys": [
+            "Super",
+            "E"
+          ],
+          "desc": "file explorer"
+        }
+      ],
+      "count": 7
     },
     {
-      "id": "focus",
-      "name": "Focus & Move",
+      "id": "launcher-rofi-menus",
+      "name": "Launcher · Rofi menus",
+      "accent": "blue",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "A"
+          ],
+          "desc": "application finder"
+        },
+        {
+          "keys": [
+            "Super",
+            "Tab"
+          ],
+          "desc": "window switcher"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "E"
+          ],
+          "desc": "file finder"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "V"
+          ],
+          "desc": "clipboard manager"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "A"
+          ],
+          "desc": "select rofi launcher"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "/"
+          ],
+          "desc": "Web Search"
+        },
+        {
+          "keys": [
+            "Super",
+            "Space"
+          ],
+          "desc": "application finder"
+        }
+      ],
+      "count": 7
+    },
+    {
+      "id": "launcher-keybindings",
+      "name": "Launcher · Keybindings",
+      "accent": "blue",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "/"
+          ],
+          "desc": "keybindings overlay"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "id": "window-management-1",
+      "name": "Window Management (1/2)",
       "accent": "teal",
       "binds": [
-        { "keys": ["Super", "Arrows"], "desc": "Move focus in a direction" },
-        { "keys": ["Super", "Shift", "H"], "desc": "Move window left (dwindle) · swap column left (scrolling)" },
-        { "keys": ["Super", "Shift", "J"], "desc": "Move window down (dwindle) · shrink to 50% and dock left (scrolling)" },
-        { "keys": ["Super", "Shift", "K"], "desc": "Move window up (dwindle) · shrink to 50% and dock left (scrolling)" },
-        { "keys": ["Super", "Shift", "L"], "desc": "Move window right (dwindle) · swap column right (scrolling)" },
-        { "keys": ["Super", "Alt", "H / L"], "desc": "Scrolling only: swap the focused column left or right" },
-        { "keys": ["Super", "Mouse drag"], "desc": "Drag a window with the left mouse button" },
-        { "keys": ["Super", "Right-drag"], "desc": "Resize a window with the right mouse button" }
-      ]
+        {
+          "keys": [
+            "Alt",
+            "F4"
+          ],
+          "desc": "close focused window"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "F4"
+          ],
+          "desc": "kill focused window"
+        },
+        {
+          "keys": [
+            "Super",
+            "Del"
+          ],
+          "desc": "exit hyprland session"
+        },
+        {
+          "keys": [
+            "Super",
+            "W"
+          ],
+          "desc": "toggle float true"
+        },
+        {
+          "keys": [
+            "Super",
+            "G"
+          ],
+          "desc": "toggle group"
+        },
+        {
+          "keys": [
+            "Alt",
+            "P"
+          ],
+          "desc": "set a window’s pseudotiling state"
+        },
+        {
+          "keys": [
+            "Shift",
+            "F11"
+          ],
+          "desc": "cycle fullscreen"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "F"
+          ],
+          "desc": "toggle pin"
+        },
+        {
+          "keys": [
+            "Ctrl",
+            "Alt",
+            "Del"
+          ],
+          "desc": "logout menu"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "B"
+          ],
+          "desc": "hide waybar"
+        }
+      ],
+      "count": 10
     },
     {
-      "id": "layout",
-      "name": "Layouts",
-      "accent": "lavender",
+      "id": "window-management-2",
+      "name": "Window Management (2/2)",
+      "accent": "teal",
       "binds": [
-        { "keys": ["Super", "L"], "desc": "Toggle dwindle ↔ scrolling layout" },
-        { "keys": ["Super", "Alt", "J"], "desc": "Dwindle only: toggle split direction" },
-        { "keys": ["Super", "Period"], "desc": "Move the window to the next column" },
-        { "keys": ["Super", "Comma"], "desc": "Move the window to the previous column" },
-        { "keys": ["Super", "Plus"], "desc": "Scrolling: grow the focused column" },
-        { "keys": ["Super", "Minus"], "desc": "Scrolling: shrink the focused column" }
-      ]
+        {
+          "keys": [
+            "Super",
+            "Q"
+          ],
+          "desc": "close focused window"
+        },
+        {
+          "keys": [
+            "Super",
+            "M"
+          ],
+          "desc": "exit hyprland session"
+        },
+        {
+          "keys": [
+            "Super",
+            "V"
+          ],
+          "desc": "toggle float"
+        },
+        {
+          "keys": [
+            "Super",
+            "P"
+          ],
+          "desc": "set a window's pseudotiling state"
+        },
+        {
+          "keys": [
+            "Super",
+            "←"
+          ],
+          "desc": "move focus left"
+        },
+        {
+          "keys": [
+            "Super",
+            "→"
+          ],
+          "desc": "move focus right"
+        },
+        {
+          "keys": [
+            "Super",
+            "↑"
+          ],
+          "desc": "move focus up"
+        },
+        {
+          "keys": [
+            "Super",
+            "↓"
+          ],
+          "desc": "move focus down"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Esc"
+          ],
+          "desc": "lock session"
+        }
+      ],
+      "count": 9
     },
     {
-      "id": "workspaces",
-      "name": "Workspaces",
+      "id": "window-management-group-navigation",
+      "name": "Window Management · Group Navigation",
+      "accent": "teal",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "H"
+          ],
+          "desc": "change active group backwards"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "L"
+          ],
+          "desc": "change active group forwards"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "id": "window-management-alt-tab-window-switcher",
+      "name": "Window Management · alt-tab window switcher",
+      "accent": "teal",
+      "binds": [
+        {
+          "keys": [
+            "Alt",
+            "Tab"
+          ],
+          "desc": "cycle next"
+        },
+        {
+          "keys": [
+            "Alt",
+            "Shift",
+            "Tab"
+          ],
+          "desc": "cycle previous"
+        },
+        {
+          "keys": [
+            "Alt",
+            "ALT_R"
+          ],
+          "desc": "switch"
+        },
+        {
+          "keys": [
+            "Alt",
+            "ALT_L"
+          ],
+          "desc": "switch"
+        }
+      ],
+      "count": 4
+    },
+    {
+      "id": "window-management-resize-active-window",
+      "name": "Window Management · Resize Active Window",
+      "accent": "teal",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "→"
+          ],
+          "desc": "resize window right"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "←"
+          ],
+          "desc": "resize window left"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "↑"
+          ],
+          "desc": "resize window up"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "↓"
+          ],
+          "desc": "resize window down"
+        }
+      ],
+      "count": 4
+    },
+    {
+      "id": "window-management-move-active-window",
+      "name": "Window Management · Move active window",
+      "accent": "teal",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "Shift",
+            "←"
+          ],
+          "desc": "left"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "Shift",
+            "→"
+          ],
+          "desc": "right"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "Shift",
+            "↑"
+          ],
+          "desc": "up"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "Shift",
+            "↓"
+          ],
+          "desc": "down"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "H"
+          ],
+          "desc": "move window left (dwindle) · previous column (scrolling)"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "J"
+          ],
+          "desc": "move window down (dwindle) · dock column left (scrolling)"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "K"
+          ],
+          "desc": "move window up (dwindle) · dock column left (scrolling)"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "L"
+          ],
+          "desc": "move window right (dwindle) · next column (scrolling)"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "H"
+          ],
+          "desc": "swap focused column left (scrolling)"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "L"
+          ],
+          "desc": "swap focused column right (scrolling)"
+        }
+      ],
+      "count": 10
+    },
+    {
+      "id": "window-management-drag-and-resize-with-mouse",
+      "name": "Window Management · Drag & Resize with mouse",
+      "accent": "teal",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Z"
+          ],
+          "desc": "hold to move window"
+        },
+        {
+          "keys": [
+            "Super",
+            "X"
+          ],
+          "desc": "hold to resize window"
+        },
+        {
+          "keys": [
+            "Super",
+            "Left click"
+          ],
+          "desc": "drag to move window"
+        },
+        {
+          "keys": [
+            "Super",
+            "Right click"
+          ],
+          "desc": "drag to resize window"
+        }
+      ],
+      "count": 4
+    },
+    {
+      "id": "workspaces-navigation-1",
+      "name": "Workspaces · Navigation (1/3)",
       "accent": "mauve",
       "binds": [
-        { "keys": ["Super", "1…0"], "desc": "Focus workspace 1–10 (0 = workspace 10)" },
-        { "keys": ["Super", "Shift", "1…0"], "desc": "Move the focused window to workspace 1–10" },
-        { "keys": ["Super", "S"], "desc": "Toggle the special scratchpad workspace" },
-        { "keys": ["Super", "Shift", "P"], "desc": "Send the window to the scratchpad" },
-        { "keys": ["Super", "Scroll ↑↓"], "desc": "Cycle to the previous / next workspace" }
-      ]
+        {
+          "keys": [
+            "Super",
+            "Num 1"
+          ],
+          "desc": "navigate to workspace 11"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num End"
+          ],
+          "desc": "navigate to workspace 11"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num 2"
+          ],
+          "desc": "navigate to workspace 12"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num Down"
+          ],
+          "desc": "navigate to workspace 12"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num 3"
+          ],
+          "desc": "navigate to workspace 13"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num Next"
+          ],
+          "desc": "navigate to workspace 13"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num 4"
+          ],
+          "desc": "navigate to workspace 14"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num Left"
+          ],
+          "desc": "navigate to workspace 14"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num 5"
+          ],
+          "desc": "navigate to workspace 15"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num Begin"
+          ],
+          "desc": "navigate to workspace 15"
+        }
+      ],
+      "count": 10
     },
     {
-      "id": "screenshots",
-      "name": "Screenshots",
+      "id": "workspaces-navigation-2",
+      "name": "Workspaces · Navigation (2/3)",
+      "accent": "mauve",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Num 6"
+          ],
+          "desc": "navigate to workspace 16"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num Right"
+          ],
+          "desc": "navigate to workspace 16"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num 7"
+          ],
+          "desc": "navigate to workspace 17"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num Home"
+          ],
+          "desc": "navigate to workspace 17"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num 8"
+          ],
+          "desc": "navigate to workspace 18"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num Up"
+          ],
+          "desc": "navigate to workspace 18"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num 9"
+          ],
+          "desc": "navigate to workspace 19"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num Prior"
+          ],
+          "desc": "navigate to workspace 19"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num 0"
+          ],
+          "desc": "navigate to workspace 20"
+        },
+        {
+          "keys": [
+            "Super",
+            "Num Insert"
+          ],
+          "desc": "navigate to workspace 20"
+        }
+      ],
+      "count": 10
+    },
+    {
+      "id": "workspaces-navigation-3",
+      "name": "Workspaces · Navigation (3/3)",
+      "accent": "mauve",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "→"
+          ],
+          "desc": "change active workspace forwards"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "←"
+          ],
+          "desc": "change active workspace backwards"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "↓"
+          ],
+          "desc": "navigate to the nearest empty workspace"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "S"
+          ],
+          "desc": "move focused window silently to scratchpad"
+        }
+      ],
+      "count": 4
+    },
+    {
+      "id": "workspaces-move-window-to-workspace-1",
+      "name": "Workspaces · Move window to workspace (1/4)",
+      "accent": "mauve",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num 1"
+          ],
+          "desc": "move focused window to workspace 11"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num End"
+          ],
+          "desc": "move focused window to workspace 11"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num 2"
+          ],
+          "desc": "move focused window to workspace 12"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num Down"
+          ],
+          "desc": "move focused window to workspace 12"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num 3"
+          ],
+          "desc": "move focused window to workspace 13"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num Next"
+          ],
+          "desc": "move focused window to workspace 13"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num 4"
+          ],
+          "desc": "move focused window to workspace 14"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num Left"
+          ],
+          "desc": "move focused window to workspace 14"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num 5"
+          ],
+          "desc": "move focused window to workspace 15"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num Begin"
+          ],
+          "desc": "move focused window to workspace 15"
+        }
+      ],
+      "count": 10
+    },
+    {
+      "id": "workspaces-move-window-to-workspace-2",
+      "name": "Workspaces · Move window to workspace (2/4)",
+      "accent": "mauve",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num 6"
+          ],
+          "desc": "move focused window to workspace 16"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num Right"
+          ],
+          "desc": "move focused window to workspace 16"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num 7"
+          ],
+          "desc": "move focused window to workspace 17"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num Home"
+          ],
+          "desc": "move focused window to workspace 17"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num 8"
+          ],
+          "desc": "move focused window to workspace 18"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num Up"
+          ],
+          "desc": "move focused window to workspace 18"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num 9"
+          ],
+          "desc": "move focused window to workspace 19"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num Prior"
+          ],
+          "desc": "move focused window to workspace 19"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num 0"
+          ],
+          "desc": "move focused window to workspace 20"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Num Insert"
+          ],
+          "desc": "move focused window to workspace 20"
+        }
+      ],
+      "count": 10
+    },
+    {
+      "id": "workspaces-move-window-to-workspace-3",
+      "name": "Workspaces · Move window to workspace (3/4)",
+      "accent": "mauve",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "Alt",
+            "→"
+          ],
+          "desc": "move focused window to next workspace"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "Alt",
+            "←"
+          ],
+          "desc": "move focused window to previous workspace"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "1"
+          ],
+          "desc": "send focused window to workspace 1"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "2"
+          ],
+          "desc": "send focused window to workspace 2"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "3"
+          ],
+          "desc": "send focused window to workspace 3"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "4"
+          ],
+          "desc": "send focused window to workspace 4"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "5"
+          ],
+          "desc": "send focused window to workspace 5"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "6"
+          ],
+          "desc": "send focused window to workspace 6"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "7"
+          ],
+          "desc": "send focused window to workspace 7"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "8"
+          ],
+          "desc": "send focused window to workspace 8"
+        }
+      ],
+      "count": 10
+    },
+    {
+      "id": "workspaces-move-window-to-workspace-4",
+      "name": "Workspaces · Move window to workspace (4/4)",
+      "accent": "mauve",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "9"
+          ],
+          "desc": "send focused window to workspace 9"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "0"
+          ],
+          "desc": "send focused window to workspace 10"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "P"
+          ],
+          "desc": "send focused window to scratchpad"
+        }
+      ],
+      "count": 3
+    },
+    {
+      "id": "workspaces-move-window-don-t-follow",
+      "name": "Workspaces · Move window (Don't follow)",
+      "accent": "mauve",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "1"
+          ],
+          "desc": "move focused window to workspace 1"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "2"
+          ],
+          "desc": "move focused window to workspace 2"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "3"
+          ],
+          "desc": "move focused window to workspace 3"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "4"
+          ],
+          "desc": "move focused window to workspace 4"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "5"
+          ],
+          "desc": "move focused window to workspace 5"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "6"
+          ],
+          "desc": "move focused window to workspace 6"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "7"
+          ],
+          "desc": "move focused window to workspace 7"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "8"
+          ],
+          "desc": "move focused window to workspace 8"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "9"
+          ],
+          "desc": "move focused window to workspace 9"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "0"
+          ],
+          "desc": "move focused window to workspace 10"
+        }
+      ],
+      "count": 10
+    },
+    {
+      "id": "workspaces-1",
+      "name": "Workspaces (1/2)",
+      "accent": "mauve",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "1"
+          ],
+          "desc": "focus workspace 1"
+        },
+        {
+          "keys": [
+            "Super",
+            "2"
+          ],
+          "desc": "focus workspace 2"
+        },
+        {
+          "keys": [
+            "Super",
+            "3"
+          ],
+          "desc": "focus workspace 3"
+        },
+        {
+          "keys": [
+            "Super",
+            "4"
+          ],
+          "desc": "focus workspace 4"
+        },
+        {
+          "keys": [
+            "Super",
+            "5"
+          ],
+          "desc": "focus workspace 5"
+        },
+        {
+          "keys": [
+            "Super",
+            "6"
+          ],
+          "desc": "focus workspace 6"
+        },
+        {
+          "keys": [
+            "Super",
+            "7"
+          ],
+          "desc": "focus workspace 7"
+        },
+        {
+          "keys": [
+            "Super",
+            "8"
+          ],
+          "desc": "focus workspace 8"
+        },
+        {
+          "keys": [
+            "Super",
+            "9"
+          ],
+          "desc": "focus workspace 9"
+        },
+        {
+          "keys": [
+            "Super",
+            "0"
+          ],
+          "desc": "focus workspace 10"
+        }
+      ],
+      "count": 10
+    },
+    {
+      "id": "workspaces-2",
+      "name": "Workspaces (2/2)",
+      "accent": "mauve",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "S"
+          ],
+          "desc": "toggle special scratchpad workspace"
+        },
+        {
+          "keys": [
+            "Super",
+            "Scroll down"
+          ],
+          "desc": "next workspace (scroll down)"
+        },
+        {
+          "keys": [
+            "Super",
+            "Scroll up"
+          ],
+          "desc": "previous workspace (scroll up)"
+        }
+      ],
+      "count": 3
+    },
+    {
+      "id": "layout-management-dwindle",
+      "name": "Layout Management · Dwindle",
+      "accent": "lavender",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "J"
+          ],
+          "desc": "toggle split"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "id": "layout-management",
+      "name": "Layout Management",
+      "accent": "lavender",
+      "binds": [
+        {
+          "keys": [
+            "Super",
+            "."
+          ],
+          "desc": "move column right"
+        },
+        {
+          "keys": [
+            "Super",
+            ","
+          ],
+          "desc": "move column left"
+        },
+        {
+          "keys": [
+            "Super",
+            "L"
+          ],
+          "desc": "toggle dwindle/scrolling"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "J"
+          ],
+          "desc": "toggle split direction (dwindle)"
+        },
+        {
+          "keys": [
+            "Super",
+            "+"
+          ],
+          "desc": "grow focused column width (scrolling)"
+        },
+        {
+          "keys": [
+            "Super",
+            "−"
+          ],
+          "desc": "shrink focused column width (scrolling)"
+        }
+      ],
+      "count": 6
+    },
+    {
+      "id": "utilities",
+      "name": "Utilities",
       "accent": "peach",
       "binds": [
-        { "keys": ["Super", "Shift", "S"], "desc": "Screenshot a selected region" },
-        { "keys": ["Super", "Print"], "desc": "Screenshot the focused window" }
-      ]
+        {
+          "keys": [
+            "Super",
+            "K"
+          ],
+          "desc": "toggle keyboard layout"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "G"
+          ],
+          "desc": "game mode"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "G"
+          ],
+          "desc": "game launcher"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "P"
+          ],
+          "desc": "freeze and snip screen"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "P"
+          ],
+          "desc": "print monitor"
+        },
+        {
+          "keys": [
+            "PrtSc"
+          ],
+          "desc": "print all monitors"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "S"
+          ],
+          "desc": "OCR scanner"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "S"
+          ],
+          "desc": "partial screenshot capture"
+        },
+        {
+          "keys": [
+            "Super",
+            "PrtSc"
+          ],
+          "desc": "window screenshot"
+        }
+      ],
+      "count": 9
     },
     {
-      "id": "media",
-      "name": "Media & System",
-      "accent": "green",
-      "binds": [
-        { "keys": ["Volume +"], "desc": "Raise output volume by 5%" },
-        { "keys": ["Volume −"], "desc": "Lower output volume by 5%" },
-        { "keys": ["Mute"], "desc": "Mute / unmute the audio output" },
-        { "keys": ["Mic mute"], "desc": "Mute / unmute the microphone" },
-        { "keys": ["Brightness +"], "desc": "Raise screen brightness by 5%" },
-        { "keys": ["Brightness −"], "desc": "Lower screen brightness by 5%" },
-        { "keys": ["Play / pause"], "desc": "Play or pause the current track" },
-        { "keys": ["Previous"], "desc": "Play the previous track" }
-      ]
-    },
-    {
-      "id": "help",
-      "name": "Help",
+      "id": "theming-and-wallpaper",
+      "name": "Theming and Wallpaper",
       "accent": "pink",
       "binds": [
-        { "keys": ["Super", "Slash"], "desc": "Open this cheat sheet as a live rofi overlay" }
-      ]
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "→"
+          ],
+          "desc": "next global wallpaper"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "←"
+          ],
+          "desc": "previous global wallpaper"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "W"
+          ],
+          "desc": "select a global wallpaper"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "R"
+          ],
+          "desc": "wallbash mode selector"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "T"
+          ],
+          "desc": "select a theme"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "Y"
+          ],
+          "desc": "select animations"
+        },
+        {
+          "keys": [
+            "Super",
+            "Shift",
+            "U"
+          ],
+          "desc": "select Hyprlock layout"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "↑"
+          ],
+          "desc": "next theme"
+        },
+        {
+          "keys": [
+            "Super",
+            "Alt",
+            "↓"
+          ],
+          "desc": "previous theme"
+        }
+      ],
+      "count": 9
+    },
+    {
+      "id": "hardware-controls-audio",
+      "name": "Hardware Controls · Audio",
+      "accent": "green",
+      "binds": [
+        {
+          "keys": [
+            "F10"
+          ],
+          "desc": "mute / unmute output"
+        },
+        {
+          "keys": [
+            "F11"
+          ],
+          "desc": "decrease volume"
+        },
+        {
+          "keys": [
+            "F12"
+          ],
+          "desc": "increase volume"
+        },
+        {
+          "keys": [
+            "Volume +"
+          ],
+          "desc": "increase output volume"
+        },
+        {
+          "keys": [
+            "Volume −"
+          ],
+          "desc": "decrease output volume"
+        },
+        {
+          "keys": [
+            "Mute"
+          ],
+          "desc": "mute / unmute output"
+        },
+        {
+          "keys": [
+            "Mic mute"
+          ],
+          "desc": "mute / unmute microphone"
+        }
+      ],
+      "count": 7
+    },
+    {
+      "id": "hardware-controls-media",
+      "name": "Hardware Controls · Media",
+      "accent": "green",
+      "binds": [
+        {
+          "keys": [
+            "Next track"
+          ],
+          "desc": "next media"
+        },
+        {
+          "keys": [
+            "Super",
+            "Ctrl",
+            "M"
+          ],
+          "desc": "toggle mute / unmute for active-window"
+        },
+        {
+          "keys": [
+            "Pause"
+          ],
+          "desc": "play / pause"
+        },
+        {
+          "keys": [
+            "Play"
+          ],
+          "desc": "play / pause"
+        },
+        {
+          "keys": [
+            "Previous track"
+          ],
+          "desc": "previous track"
+        }
+      ],
+      "count": 5
+    },
+    {
+      "id": "hardware-controls-brightness",
+      "name": "Hardware Controls · Brightness",
+      "accent": "green",
+      "binds": [
+        {
+          "keys": [
+            "Brightness +"
+          ],
+          "desc": "increase screen brightness"
+        },
+        {
+          "keys": [
+            "Brightness −"
+          ],
+          "desc": "decrease screen brightness"
+        }
+      ],
+      "count": 2
     }
   ]
 }

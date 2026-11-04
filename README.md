@@ -38,6 +38,22 @@ the picker. The picker shows wallpaper thumbnails; `thmbDir` must contain a
 `.sqre` thumbnail for every theme or entries appear blank. Rebuild them with
 `hyde-shell wallpaper --cache theme "<theme name>"`.
 
+## Shortcut reference
+
+`~/.config/hypr/scripts/gen-all-keybinds.py` builds a complete shortcut
+reference from the *live* Hyprland config, so it includes both the personal and
+HyDE bindings:
+
+```bash
+~/.config/hypr/scripts/gen-all-keybinds.py
+# -> ~/Desktop/HyDE-Keybindings.pdf
+```
+
+It also rewrites `~/.config/hypr/keybindings.json`, which powers the searchable
+`SUPER + /` rofi overlay. Re-run the script after adding or changing a bind.
+The PDF is grouped by HyDE's bind categories (`Launcher`, `Window Management`,
+`Workspaces`, etc.) and includes mouse and media-key shortcuts.
+
 ## How theming works
 
 `hyde-shell theme.switch` (or `hyde-shell theme.select`) writes HyDE's colour
