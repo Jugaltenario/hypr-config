@@ -42,7 +42,134 @@ hyde/          helper-layer overrides and theme-switch scripts
 applications/  desktop entries
 ```
 
+<!-- setup-guide:start -->
+## From zero
+
+This is the full path from a machine with no desktop (or no OS) to this exact
+setup. Budget 30–60 minutes after the operating system is installed.
+
+> **Before you start:** the helper-layer installer changes GRUB, SDDM, shell
+> startup files and `/etc/pacman.conf`. Use a fresh install or a snapshot, and
+> read the installer prompts before confirming.
+
+### 1. Install the operating system
+
+Skip this step if Arch or CachyOS is already installed.
+
+1. Download the CachyOS ISO (or the Arch ISO) and write it to a USB drive.
+2. Boot the USB, run the installer, create your user account, and reboot.
+3. Log in at the TTY and connect to the network:
+
+   ```bash
+   nmtui
+   ```
+
+The helper layer is written for a minimal Arch install. Running it on top of an
+existing desktop can conflict with your current GTK/Qt theme, SDDM and GRUB.
+
+### 2. Prepare the base system
+
+```bash
+sudo pacman -Syu --needed git base-devel
+sudo systemctl enable --now NetworkManager
+```
+
+Install the GPU driver for your hardware (CachyOS Hello can do this), then make
+sure audio and Bluetooth work:
+
+```bash
+sudo pacman -S --needed pipewire pipewire-pulse wireplumber bluez bluez-utils
+sudo systemctl enable --now bluetooth
+```
+
+### 3. Install the helper layer
+
+`hyprland.lua` bootstraps the `hyde-shell` helper layer and stops with an error
+if it is missing. Install that layer before copying this repository:
+
+```bash
+git clone --depth 1 https://github.com/HyDE-Project/HyDE ~/HyDE
+cd ~/HyDE/Scripts
+./install.sh
+```
+
+Reboot and log into the Hyprland session once. This provides Hyprland, the Lua
+modules, the theme engine, rofi menus, wallpapers and the `hyde-shell` command.
+
+### 4. Install the personal apps
+
+The helper layer defaults to kitty and Dolphin. This setup uses Ghostty,
+Nautilus and Brave instead:
+
+```bash
+sudo pacman -S --needed ghostty nautilus fish fastfetch jq grim slurp \
+  wl-clipboard brightnessctl playerctl python python-gobject python-cairo \
+  imagemagick ffmpeg parallel ttf-cascadia-code-nerd ttf-cascadia-mono-nerd
+```
+
+Brave is `brave-bin` on CachyOS and the AUR on plain Arch:
+
+```bash
+sudo pacman -S --needed brave-bin
+# or: yay -S brave-bin
+```
+
+Then refresh the font cache:
+
+```bash
+fc-cache -f
+```
+
+See **Requirements** below for optional extras used by some binds.
+
+### 5. Apply this repository
+
+Follow **Install** below. It backs up your existing config, copies this repo's
+files, installs the local overrides, replaces the `/home/jp` paths, adds the
+wallpapers, and applies the first theme.
+
+### 6. Verify
+
+After the theme switch and a reload:
+
+```bash
+hyprctl configerrors
+xdg-settings get default-web-browser
+```
+
+`hyprctl configerrors` should print nothing, and the browser should be
+`brave-browser.desktop`. Then check the main shortcuts:
+
+| Shortcut | Expected |
+| --- | --- |
+| `SUPER + Return` | Ghostty |
+| `SUPER + B` | Brave |
+| `SUPER + E` | Nautilus |
+| `SUPER + Space` | rofi launcher |
+| `SUPER + Shift + T` | theme picker |
+| `SUPER + /` | keybinding overlay |
+
+### 7. If something is missing
+
+- **The launcher selects an app but nothing opens** — make sure
+  `hyde/lib/app.sh` was copied to `~/.local/lib/hyde/`. It runs the command
+  directly when `app2unit` is not installed.
+- **`SUPER + B` does nothing** — install Brave and check `browser = "brave"`
+  in `~/.config/hyde/config.toml`.
+- **Theme previews are blank** — rebuild that theme's thumbnails:
+  `hyde-shell wallpaper --cache theme "<theme name>"`.
+- **The wallpaper does not change** — do not start `hyprpaper` manually.
+  Check `systemctl --user status hyprpaper` instead.
+- **fish reports `Unknown command: bind_M_n_history`** — the files under
+  `fish/functions/` were not copied. Re-run Install step 2.
+- **The terminal font looks wrong** — install `ttf-cascadia-*-nerd`, run
+  `fc-cache -f`, then restart Ghostty.
+- **`hyde-shell open` reports a missing `lgi` module** — the browser entry in
+  this repo calls Brave directly, so `SUPER + B` still works.
+
 ## Requirements
+
+If you are starting from nothing, follow **From zero** above first.
 
 You need a working Hyprland/Wayland session. The commands below assume
 Arch/CachyOS package names.
@@ -81,6 +208,9 @@ browser, change `browser` in `~/.config/hyde/config.toml` and the default
 entries in `~/.config/mimeapps.list`.
 
 ## Install
+
+These steps assume the helper layer from **From zero** step 3 is installed and
+you are logged into a working session.
 
 1. Clone the repo and back up anything you already have:
 
@@ -189,6 +319,21 @@ Re-run it after adding or changing a bind.
   applications, update the variables at the top of `hypr/hyprland.lua`.
 - This setup is tuned for a single laptop display. Review the monitor block in
   `hypr/hyprland.lua` before using it on a multi-monitor desktop.
+
+<!-- setup-guide:end -->
+
+## Setup PDF
+
+The **From zero** guide through **Notes** is also available as a printable
+PDF. It is generated from this README, so the two always match:
+
+```bash
+~/.config/hypr/scripts/gen-setup-guide.py
+# -> ~/Desktop/Setup-from-Zero.pdf
+```
+
+The script needs `python-gobject` and `python-cairo` (listed under
+**Requirements**). Re-run it after editing the guide.
 
 ## Updating
 
