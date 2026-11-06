@@ -1,5 +1,11 @@
 # hypr-config
 
+<p align="center">
+  <img src="assets/screenshots/desktop.png" alt="Hyprland desktop with Ghostty, Nautilus and the mechabar" width="100%">
+  <br>
+  <sub>Catppuccin Mocha · Ghostty, Nautilus and the mechabar</sub>
+</p>
+
 A personal Hyprland desktop setup for Arch/CachyOS: a mechabar-style Waybar,
 Ghostty terminal, rofi launcher, Nautilus, swaync notifications, fish, fastfetch
 and a theme switcher that keeps the wallpaper, bar, terminal and GTK apps in
@@ -23,6 +29,16 @@ scripts before running them, and back up your existing config first.
   cursor, fonts and the wallpaper together.
 - **Keybinding reference** — a generator that turns the live Hyprland config
   into a PDF and a searchable rofi overlay.
+
+## Screenshots
+
+| Launcher · `SUPER + Space` | Theme picker · `SUPER + Shift + T` |
+| --- | --- |
+| [![rofi application launcher](assets/screenshots/launcher.png)](assets/screenshots/launcher.png) | [![theme picker with live wallpaper thumbnails](assets/screenshots/themes.png)](assets/screenshots/themes.png) |
+
+`SUPER + /` opens the same keybinding data as a searchable overlay:
+
+[![Searchable keybinding overlay](assets/screenshots/keybinds.png)](assets/screenshots/keybinds.png)
 
 ## Repository layout
 
